@@ -29,12 +29,14 @@ class ConnectBluetoothActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_connect_bluetooth)
 
+        title = "Connect to Bluetooth"
+
         m_bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
         if (m_bluetoothAdapter == null) {
             Toast.makeText(applicationContext, "This device doesn't support bluetooth", Toast.LENGTH_SHORT).show()
             return
         }
-        if (!m_bluetoothAdapter!!.isEnabled) {
+        if (m_bluetoothAdapter?.isEnabled == false) {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH)
         }

@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.Toast
 import java.io.IOException
 import java.util.*
 
@@ -58,6 +59,12 @@ class MainActivity : AppCompatActivity() {
             leftBtn.setOnClickListener { sendCommand("3") }
             rightBtn.setOnClickListener { sendCommand("4") }
             stopBtn.setOnClickListener { sendCommand("0") }
+        } else {
+            forwardBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
+            backwardBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
+            leftBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
+            rightBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
+            stopBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
         }
 
     }
@@ -82,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
         }
-        finish()
     }
 
     private class ConnectToDevice(c: Context) : AsyncTask<Void, Void, String>() {
@@ -95,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 
         override fun onPreExecute() {
             super.onPreExecute()
-            m_progress = ProgressDialog.show(context, "Connecting...", "please wait")
+            m_progress = ProgressDialog.show(context, "Connecting...", "Please wait")
         }
 
         override fun doInBackground(vararg p0: Void?): String? {
@@ -117,9 +123,11 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             if (!connectSuccess) {
-                Log.i("data", "couldn't connect")
+//                Log.i("data", "couldn't connect")
+                Toast.makeText(this.context, "Could not connect", Toast.LENGTH_SHORT).show()
             } else {
                 m_isConnected = true
+                Toast.makeText(this.context, "Connected", Toast.LENGTH_SHORT).show()
             }
             m_progress.dismiss()
         }
