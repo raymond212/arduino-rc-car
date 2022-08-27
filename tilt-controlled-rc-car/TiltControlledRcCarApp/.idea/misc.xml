@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Raymond/projects/arduino-rc-car/tilt-controlled-rc-car/TiltControlledRcCarApp/app/src/main/res/layout/activity_connect_bluetooth.xml" value="0.5" />
+        <entry key="..\:/Users/Raymond/projects/arduino-rc-car/tilt-controlled-rc-car/TiltControlledRcCarApp/app/src/main/res/layout/activity_main.xml" value="0.67" />
         <entry key="..\:/Users/Raymond/projects/arduino-rc-car/tilt-controlled-rc-car/app/src/main/res/layout/activity_main.xml" value="0.5" />
       </map>
     </option>

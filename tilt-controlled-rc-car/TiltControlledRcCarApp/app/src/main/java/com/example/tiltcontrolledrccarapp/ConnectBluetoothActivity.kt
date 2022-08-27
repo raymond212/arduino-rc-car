@@ -1,4 +1,4 @@
-package com.example.buttoncontrolledrccarapp
+package com.example.tiltcontrolledrccarapp
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
-import kotlinx.android.synthetic.main.activity_connect_bluetooth.*
 
 @SuppressLint("MissingPermission")
 class ConnectBluetoothActivity : AppCompatActivity() {
@@ -86,5 +85,4 @@ class ConnectBluetoothActivity : AppCompatActivity() {
             }
         }
     }
-
 }

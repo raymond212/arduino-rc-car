@@ -35,13 +35,13 @@ class MainActivity : AppCompatActivity() {
 
         title = "Button Controlled RC Car"
 
-        val connectBtn: Button = findViewById(R.id.connectBluetoothBtn)
-        val disconnectBtn: Button = findViewById(R.id.disconnectBluetoothBtn)
-        val forwardBtn: ImageButton = findViewById(R.id.forwardBtn)
-        val backwardBtn: ImageButton = findViewById(R.id.backwardBtn)
-        val leftBtn: ImageButton = findViewById(R.id.leftBtn)
-        val rightBtn: ImageButton = findViewById(R.id.rightBtn)
-        val stopBtn: ImageButton = findViewById(R.id.stopBtn)
+        val connectBtn = findViewById<Button>(R.id.connectBluetoothBtn)
+        val disconnectBtn = findViewById<Button>(R.id.disconnectBluetoothBtn)
+        val forwardBtn = findViewById<ImageButton>(R.id.forwardBtn)
+        val backwardBtn = findViewById<ImageButton>(R.id.backwardBtn)
+        val leftBtn = findViewById<ImageButton>(R.id.leftBtn)
+        val rightBtn = findViewById<ImageButton>(R.id.rightBtn)
+        val stopBtn = findViewById<ImageButton>(R.id.stopBtn)
 
         connectBtn.setOnClickListener {
             val intent = Intent(this, ConnectBluetoothActivity::class.java)
@@ -60,13 +60,17 @@ class MainActivity : AppCompatActivity() {
             rightBtn.setOnClickListener { sendCommand("4") }
             stopBtn.setOnClickListener { sendCommand("0") }
         } else {
-            forwardBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
-            backwardBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
-            leftBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
-            rightBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
-            stopBtn.setOnClickListener { Toast.makeText(applicationContext, "No bluetooth device connected", Toast.LENGTH_SHORT).show() }
+            forwardBtn.setOnClickListener { toast("No bluetooth device connected") }
+            backwardBtn.setOnClickListener { toast("No bluetooth device connected") }
+            leftBtn.setOnClickListener { toast("No bluetooth device connected") }
+            rightBtn.setOnClickListener { toast("No bluetooth device connected") }
+            stopBtn.setOnClickListener { toast("No bluetooth device connected") }
         }
 
+    }
+
+    private fun toast(input: String) {
+        Toast.makeText(applicationContext, input, Toast.LENGTH_SHORT).show()
     }
 
     private fun sendCommand(input: String) {
@@ -123,7 +127,6 @@ class MainActivity : AppCompatActivity() {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             if (!connectSuccess) {
-//                Log.i("data", "couldn't connect")
                 Toast.makeText(this.context, "Could not connect", Toast.LENGTH_SHORT).show()
             } else {
                 m_isConnected = true

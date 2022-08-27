@@ -5,6 +5,10 @@ SoftwareSerial BT(10, 11);
 #define LEFT_B 5
 #define RIGHT_F 6
 #define RIGHT_B 9
+//
+//int lastPower = 0;
+//int lastForward = 0;
+//int lastLeft = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -28,33 +32,32 @@ void loop() {
       Serial.print(" ");
     }
     Serial.println();
-    int power, forward, left;
-    power = buf[0];
-    forward = buf[1];
-    left = buf[2];
-    if (power == 0) {
-      motorWrite(0, 0);
-    } else {
-      int x_power = round((forward / abs(forward)) * (forward * forward) / power);
-      int y_power = round((left / abs(left)) * (left * left) / power);
-      int motor_left = x_power;
-      int motor_right = x_power;
-      if (x_power >= 0) {
-        if (y_power >= 0) {
-          motor_right += y_power;
-        } else {
-          motor_left -= y_power;
-        }
-      } else {
-        if (y_power >= 0) {
-          motor_right -= y_power;
-        } else {
-          motor_left += y_power;
-        }
-      }
-      motorWrite(motor_left, motor_right);      
-    }
-
+//    int power, forward, left;
+//    power = buf[0];
+//    forward = buf[1];
+//    left = buf[2];
+//    if (power == 0) {
+//      motorWrite(0, 0);
+//    } else {
+//      int x_power = round((forward / abs(forward)) * (forward * forward) / power);
+//      int y_power = round((left / abs(left)) * (left * left) / power);
+//      int motor_left = x_power;
+//      int motor_right = x_power;
+//      if (x_power >= 0) {
+//        if (y_power >= 0) {
+//          motor_right += y_power;
+//        } else {
+//          motor_left -= y_power;
+//        }
+//      } else {
+//        if (y_power >= 0) {
+//          motor_right -= y_power;
+//        } else {
+//          motor_left += y_power;
+//        }
+//      }
+//      motorWrite(motor_left, motor_right);      
+//    }
   }
 }
 
