@@ -2,13 +2,16 @@ package com.example.tiltcontrolledrccarapp
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.ProgressDialog
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import java.io.IOException
 
 @SuppressLint("MissingPermission")
 class ConnectBluetoothActivity : AppCompatActivity() {
@@ -17,10 +20,6 @@ class ConnectBluetoothActivity : AppCompatActivity() {
     private lateinit var m_pairedDevices: Set<BluetoothDevice>
     private val REQUEST_ENABLE_BLUETOOTH = 1
 
-    companion object {
-        val EXTRA_ADDRESS: String = "Device_address"
-        val CONNECTED: String = "NO"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,12 +61,15 @@ class ConnectBluetoothActivity : AppCompatActivity() {
         select_device_list.adapter = adapter
         select_device_list.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
             val device: BluetoothDevice = list[position]
-            val address: String = device.address
-
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra(EXTRA_ADDRESS, address)
-            intent.putExtra(CONNECTED, "YES")
-            startActivity(intent)
+            MainActivity.m_address = device.address
+            val connectSuccess = connectToDevice(this)
+            if (!connectSuccess) {
+                Toast.makeText(this, "Could not connect", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
@@ -84,5 +86,27 @@ class ConnectBluetoothActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Bluetooth enabling has been canceled", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun connectToDevice(c: Context): Boolean {
+        var connectSuccess = true
+        try {
+            if (MainActivity.m_bluetoothSocket == null || !MainActivity.m_isConnected) {
+                MainActivity.m_bluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
+                val device: BluetoothDevice = MainActivity.m_bluetoothAdapter.getRemoteDevice(
+                    MainActivity.m_address
+                )
+                MainActivity.m_bluetoothSocket = device.createInsecureRfcommSocketToServiceRecord(
+                    MainActivity.m_myUUID
+                )
+                BluetoothAdapter.getDefaultAdapter().cancelDiscovery()
+                MainActivity.m_bluetoothSocket!!.connect()
+            }
+            MainActivity.m_isConnected = true
+        } catch (e: IOException) {
+            connectSuccess = false
+            e.printStackTrace()
+        }
+        return connectSuccess
     }
 }
