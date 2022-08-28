@@ -33,25 +33,6 @@ void loop() {
       stopCar();
     }
   }
-//  if (Serial.available()) {
-//    int state = Serial.read();
-//    switch (state) {
-//      case 1:
-//        forward();
-//        break;
-//      case 2:
-//        backward();
-//        break;
-//      case 3:
-//        radialLeft();
-//        break;
-//      case 4: 
-//        radialRight();
-//        break;
-//      default:
-//        stopCar();
-//    }
-//  }
 }
 
 void motorWrite(int a, int b, int c, int d) {
