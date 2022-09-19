@@ -1,21 +1,27 @@
 #include <SoftwareSerial.h>
 SoftwareSerial BT(10, 11);
 
-#define LEFT_F 3
+#define LEFT_F 4
 #define LEFT_B 5
+#define LEFT_E 3
 #define RIGHT_F 6
-#define RIGHT_B 9
+#define RIGHT_B 8
+#define RIGHT_E 9
 
 int maxSpeed = 50; // from 0 to 100
 
 void setup() {
+  Serial.begin(9600);
+  BT.begin(9600);
   pinMode(LEFT_F, OUTPUT);
   pinMode(LEFT_B, OUTPUT);
   pinMode(RIGHT_F, OUTPUT);
   pinMode(RIGHT_B, OUTPUT);
-  
-  Serial.begin(9600);
-  BT.begin(9600);
+
+  digitalWrite(LEFT_F, LOW);
+  digitalWrite(LEFT_B, LOW);
+  digitalWrite(RIGHT_F, LOW);
+  digitalWrite(RIGHT_B, LOW);  
 }
 
 void loop() {
@@ -36,40 +42,38 @@ void loop() {
 }
 
 void motorWrite(int a, int b, int c, int d) {
-  a = map(a, 0, 100, 0, 255);
-  b = map(b, 0, 100, 0, 255);
-  c = map(c, 0, 100, 0, 255);
-  d = map(d, 0, 100, 0, 255);
-  analogWrite(LEFT_F, a);
-  analogWrite(LEFT_B, b);
-  analogWrite(RIGHT_F, c);
-  analogWrite(RIGHT_B, d);
+  digitalWrite(LEFT_F, a);
+  digitalWrite(LEFT_B, b);
+  digitalWrite(RIGHT_F, c);
+  digitalWrite(RIGHT_B, d);
+  analogWrite(LEFT_E, map(maxSpeed, 0, 100, 0, 255));
+  analogWrite(RIGHT_E, map(maxSpeed, 0, 100, 0, 255));
 }
 
 void forward() {
-  motorWrite(maxSpeed, 0, maxSpeed, 0);
+  motorWrite(HIGH, LOW, HIGH, LOW);
 }
 
 void backward() {
-  motorWrite(0, maxSpeed, 0, maxSpeed);
+  motorWrite(LOW, HIGH, LOW, HIGH);
 }
 
 void radialLeft() {
-  motorWrite(0, 0, maxSpeed, 0);
+  motorWrite(LOW, LOW, HIGH, LOW);
 }
 
 void radialRight() {
-  motorWrite(maxSpeed, 0, 0, 0);
+  motorWrite(HIGH, LOW, LOW, LOW);
 }
 
 void axialLeft() {
-  motorWrite(0, maxSpeed, maxSpeed, 0);
+  motorWrite(LOW, HIGH, HIGH, LOW);
 }
 
 void axialRight() {
-  motorWrite(maxSpeed, 0, 0, maxSpeed);
+  motorWrite(HIGH, LOW, LOW, HIGH);
 }
 
 void stopCar() {
-  motorWrite(0, 0, 0, 0);  
+  motorWrite(LOW, LOW, LOW, LOW);  
 }

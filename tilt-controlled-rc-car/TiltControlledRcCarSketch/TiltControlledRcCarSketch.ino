@@ -1,19 +1,26 @@
 #include <SoftwareSerial.h>
 SoftwareSerial BT(10, 11);
 
-#define LEFT_F 3
+#define LEFT_F 4
 #define LEFT_B 5
+#define LEFT_E 3
 #define RIGHT_F 6
-#define RIGHT_B 9
+#define RIGHT_B 8
+#define RIGHT_E 9
 
 void setup() {
   Serial.begin(9600);
   BT.begin(9600);
+  pinMode(LEFT_F, OUTPUT);
+  pinMode(LEFT_B, OUTPUT);
+  pinMode(RIGHT_F, OUTPUT);
+  pinMode(RIGHT_B, OUTPUT);
 
-  analogWrite(LEFT_F, 0);
-  analogWrite(LEFT_B, 0);
-  analogWrite(RIGHT_F, 0);
-  analogWrite(RIGHT_B, 0);  
+  
+  digitalWrite(LEFT_F, LOW);
+  digitalWrite(LEFT_B, LOW);
+  digitalWrite(RIGHT_F, LOW);
+  digitalWrite(RIGHT_B, LOW);  
 }
 
 void loop() {
@@ -63,21 +70,26 @@ void motorWrite(int left, int right) {
   int c = 0;
   int d = 0;
   if (left >= 0) {
-    a = left;
+    a = HIGH;
+    b = LOW;
   } else {
-    b = -left;
+    a = LOW;
+    b = HIGH;
   }
   if (right >= 0) {
-    c = right;
+    c = HIGH;
+    d = LOW;
   } else {
-    d = -right;
+    c = LOW;
+    d = HIGH;
   }
-  a = map(a, 0, 100, 0, 255);
-  b = map(b, 0, 100, 0, 255);
-  c = map(c, 0, 100, 0, 255);
-  d = map(d, 0, 100, 0, 255);
-  analogWrite(LEFT_F, a);
-  analogWrite(LEFT_B, b);
-  analogWrite(RIGHT_F, c);
-  analogWrite(RIGHT_B, d);  
+  left = map(abs(left), 0, 100, 0, 255);
+  right = map(abs(right), 0, 100, 0, 255);
+  digitalWrite(RIGHT_F, c);
+  digitalWrite(RIGHT_B, d);  
+  digitalWrite(LEFT_F, a);
+  digitalWrite(LEFT_B, b);
+  
+  analogWrite(RIGHT_E, right);
+  analogWrite(LEFT_E, left);
 }
