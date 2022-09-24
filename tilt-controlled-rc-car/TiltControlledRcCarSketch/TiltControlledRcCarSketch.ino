@@ -85,11 +85,12 @@ void motorWrite(int left, int right) {
   }
   left = map(abs(left), 0, 100, 0, 255);
   right = map(abs(right), 0, 100, 0, 255);
-  digitalWrite(RIGHT_F, c);
-  digitalWrite(RIGHT_B, d);  
+  
   digitalWrite(LEFT_F, a);
   digitalWrite(LEFT_B, b);
+  digitalWrite(RIGHT_F, c);
+  digitalWrite(RIGHT_B, d);  
   
-  analogWrite(RIGHT_E, right);
   analogWrite(LEFT_E, left);
+  analogWrite(RIGHT_E, right);
 }
